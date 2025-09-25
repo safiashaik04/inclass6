@@ -64,9 +64,29 @@ class _CounterWidgetState extends State<CounterWidget> {
 
   void _onLiftoff() {
     // Show "LIFTOFF!" popup
+    if (!_shownPopup && mounted) {
+      _shownPopup = true;
+      showDialog(
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            title: const Text('LIFTOFF! 🚀'),
+            content: const Text('Fuel is full at 100. We have liftoff!'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(),
+                child: const Text('Close'),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   Color _getColor() {
+    if (_counter == 0) return Colors.red;
+    if (_counter <= 50) return Colors.orange;
     return Colors.green;
   }
 
